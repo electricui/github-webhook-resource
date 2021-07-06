@@ -86,7 +86,6 @@ describe("validate.input", () => {
 
   it("checks for required fields", () => {
     const required = [
-      "source.github_api",
       "source.github_token",
       "params.org",
       "params.repo",
