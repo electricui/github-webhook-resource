@@ -24,7 +24,7 @@ const configSchema = {
         github_api: { type: "string" },
         github_token: { type: "string" },
       },
-      required: ["github_api", "github_token"],
+      required: ["github_token"],
     },
     params: {
       type: "object",
@@ -32,6 +32,8 @@ const configSchema = {
         org: { type: "string" },
         repo: { type: "string" },
         resource_name: { type: "string" },
+        team_name: { type: "string" },
+        pipeline_name: { type: "string" },
         webhook_token: { type: "string" },
         events: {
           type: "array",

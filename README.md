@@ -1,9 +1,11 @@
 Github Webhook Resource
 ===================================
 
-[![Build Status](https://travis-ci.org/homedepot/github-webhook-resource.svg?branch=master)](https://travis-ci.org/homedepot/github-webhook-resource) [![Docker Pulls](https://img.shields.io/docker/pulls/homedepottech/github-webhook-resource.svg)](https://hub.docker.com/r/homedepottech/github-webhook-resource)
+[![Build Status](https://travis-ci.org/homedepot/github-webhook-resource.svg?branch=master)](https://travis-ci.org/homedepot/github-webhook-resource) [![Docker Pulls](https://img.shields.io/docker/pulls/electricui/github-webhook-resource.svg)](https://hub.docker.com/r/electricui/github-webhook-resource)
 
-By default, Concourse will `check` your resources once per minute to see if they have updated. In order to reduce excessive `checks`, you must configure webhooks to trigger Concourse externally. This resource automatically configures your GitHub respoitories to send webhooks to your Concourse pipeline the instant a change happens.
+A concourse resource to automatically configure Github webhooks to trigger resource polls. 
+
+This is a fork of the [original](https://github.com/homedepot/github-webhook-resource) with additional APIs to allow cross-pipeline mutation of webhooks and some other cleanup.
 
 Resource Type Configuration
 ---------------------------
@@ -13,7 +15,7 @@ resource_types:
 - name: github-webhook-resource
   type: docker-image
   source:
-    repository: homedepottech/github-webhook-resource
+    repository: electricui/github-webhook-resource
     tag: latest
 ```
 Source Configuration
@@ -24,12 +26,11 @@ resources:
 - name: github-webhook
   type: github-webhook-resource
   source:
-    github_api: https://github.example.com/api
     github_token: ((github-token))
 ```
 
--	`github_api`: *Required.* The Github API URL for your repo.
--   `github_token`: *Required.* [A Github token with the `admin:repo_hook` scope.](https://github.com/settings/tokens/new?scopes=admin:repo_hook) Additionally, the token's account must [be an administrator of your repo](https://help.github.com/en/articles/managing-an-individuals-access-to-an-organization-repository) to manage the repo's webhooks.
+-	`github_api`: The Github API URL for your repo, default is `https://api.github.com`.
+- `github_token`: *Required.* [A Github token with the `admin:repo_hook` scope.](https://github.com/settings/tokens/new?scopes=admin:repo_hook) Additionally, the token's account must [be an administrator of your repo](https://help.github.com/en/articles/managing-an-individuals-access-to-an-organization-repository) to manage the repo's webhooks.
 
 Behavior
 --------
@@ -60,6 +61,8 @@ Create or delete a webhook using the configured parameters.
     -   `create` to create a new webhook. Updates existing webhook if your configuration differs from remote.
     -   `delete` to delete an existing webhook. Outputs current timestamp on non-existing webhooks.
 -   `events`: *Optional*. An array of [events](https://developer.github.com/webhooks/#events) which will trigger your webhook. Default: `push`
+-	`team_name`: The concourse team name of the pipeline receiving the webhook, by default is the team name of the pipeline executing this put.
+-	`pipeline_name`: The name of the pipeline receiving the webhook, by default is the pipeline executing this put.
 
 ## Development
 ### Prerequisites

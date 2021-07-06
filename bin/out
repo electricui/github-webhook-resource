@@ -42,9 +42,13 @@ stdin.on("end", function () {
 });
 
 async function processWebhook(source, params) {
-  const webhookEndpoint = `${source.github_api}/repos/${params.org}/${params.repo}/hooks`;
+  const webhookEndpoint = `${source.github_api || "https://api.github.com"}/repos/${params.org}/${params.repo}/hooks`;
   const url = encodeURI(
-    `${env.ATC_EXTERNAL_URL}/api/v1/teams/${env.BUILD_TEAM_NAME}/pipelines/${env.BUILD_PIPELINE_NAME}/resources/${params.resource_name}/check/webhook?webhook_token=${params.webhook_token}`
+    `${env.ATC_EXTERNAL_URL}/api/v1/teams/${
+      params.team_name || env.BUILD_TEAM_NAME
+    }/pipelines/${params.pipeline_name || env.BUILD_PIPELINE_NAME}/resources/${
+      params.resource_name
+    }/check/webhook?webhook_token=${params.webhook_token}`
   );
 
   log(
