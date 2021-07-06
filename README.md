@@ -1,8 +1,6 @@
 Github Webhook Resource
 ===================================
 
-[![Build Status](https://travis-ci.org/homedepot/github-webhook-resource.svg?branch=master)](https://travis-ci.org/homedepot/github-webhook-resource) [![Docker Pulls](https://img.shields.io/docker/pulls/electricui/github-webhook-resource.svg)](https://hub.docker.com/r/electricui/github-webhook-resource)
-
 A concourse resource to automatically configure Github webhooks to trigger resource polls. 
 
 This is a fork of the [original](https://github.com/homedepot/github-webhook-resource) with additional APIs to allow cross-pipeline mutation of webhooks and some other cleanup.
