@@ -87,8 +87,8 @@ docker build -t github-webhook-resource .
 To use the newly built image, push it to a Docker repository which your Concourse pipeline can access and configure your pipeline to use it:
 
 ```shell
-docker tag github-webhook-resource example.com/github-webhook-resource
-docker push example.com/github-webhook-resource
+docker build ./ -t electricui/github-webhook-resource
+docker push electricui/github-webhook-resource
 ```
 
 ```yaml
@@ -96,7 +96,7 @@ resource_types:
 - name: github-webhook-resource
   type: docker-image
   source:
-    repository: example.com/github-webhook-resource
+    repository: electricui/github-webhook-resource
     tag: latest
 
 resources:
